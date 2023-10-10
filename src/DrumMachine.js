@@ -1,6 +1,6 @@
 import React from "react";
 import DrumPad from "./DrumPad";
-import { useState, useEffect } from "react";
+import { useState, useEffect ,useCallback } from "react";
 
 
 function DrumMachine(){
@@ -22,7 +22,7 @@ function DrumMachine(){
     const updateDisplay = (description) => {
         setDisplay(description);
     }
-    const playSoundByKey = (event) => {
+    const playSoundByKey = useCallback((event) => {
         const key = event.key.toUpperCase();
         const drum = drumData.find(d => d.key === key);
         if (drum) {
@@ -31,7 +31,7 @@ function DrumMachine(){
             audio.play();
             updateDisplay(drum.description);
         }
-    };
+    });
 
     useEffect(() => {
         window.addEventListener('keydown', playSoundByKey);
