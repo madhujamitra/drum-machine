@@ -31,7 +31,7 @@ function DrumMachine(){
             audio.play();
             updateDisplay(drum.description);
         }
-    }, [updateDisplay, drumData]); 
+    }, [updateDisplay]); 
 
     useEffect(() => {
         window.addEventListener('keydown', playSoundByKey);
