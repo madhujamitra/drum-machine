@@ -1,11 +1,11 @@
 import React from "react";
 import DrumPad from "./DrumPad";
-import { useState, useEffect ,useCallback } from "react";
+import { useState, useEffect ,useCallback, useMemo } from "react";
 
 
 function DrumMachine(){
 
-    const drumData = [
+    const drumData = useMemo( () => [
         { id: 'clip1', key: 'Q', src: 'https://s3.amazonaws.com/freecodecamp/drums/Heater-1.mp3', description: 'Sound 1'  },
         { id: 'clip2', key: 'W', src: 'https://s3.amazonaws.com/freecodecamp/drums/Heater-2.mp3' , description: 'Sound 2' },
         { id: 'clip3', key: 'E', src: 'https://s3.amazonaws.com/freecodecamp/drums/Heater-3.mp3' ,description: 'Sound 3'},
@@ -16,12 +16,13 @@ function DrumMachine(){
         { id: 'clip8', key: 'X', src: 'https://s3.amazonaws.com/freecodecamp/drums/RP4_KICK_1.mp3',description: 'Sound 8' },
         { id: 'clip0', key: 'C', src: 'https://s3.amazonaws.com/freecodecamp/drums/Cev_H2.mp3',description: 'Sound 9' },
     
-    ]
+    ], []);
 
     const [display, setDisplay] = useState("");
-    const updateDisplay = (description) => {
+    const updateDisplay = useCallback((description) => {
         setDisplay(description);
-    }
+    }, []);
+    
     const playSoundByKey = useCallback((event) => {
         const key = event.key.toUpperCase();
         const drum = drumData.find(d => d.key === key);
@@ -31,7 +32,7 @@ function DrumMachine(){
             audio.play();
             updateDisplay(drum.description);
         }
-    }, [updateDisplay]); 
+    }, [updateDisplay, drumData]); 
 
     useEffect(() => {
         window.addEventListener('keydown', playSoundByKey);
