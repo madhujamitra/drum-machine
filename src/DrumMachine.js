@@ -39,7 +39,7 @@ function DrumMachine(){
         return () => {
             window.removeEventListener('keydown', playSoundByKey);
         };
-    }, []);
+    }, [playSoundByKey]);
 
     
     
